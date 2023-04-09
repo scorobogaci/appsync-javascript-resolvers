@@ -97,6 +97,14 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const getPostsByAuthor = new AppsyncFunction(this, 'GetPostsByAuthorFunction', {
+            name: 'GET_POSTS_BY_AUTHOR',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/getPostsByAuthor.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
         /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
@@ -150,6 +158,15 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [getPostsFunction],
+        });
+
+        new Resolver(this, 'GetPostsByAuthorResolver', {
+            api: appsyncApi,
+            typeName: 'Query',
+            fieldName: 'getPostsByAuthor',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [getPostsByAuthor],
         });
 
     }

@@ -13,6 +13,7 @@ type Mutation {
 type Query {
     getPost(id: ID): Post
     getPosts(limit: Int, nextToken: String): PaginatedPosts!
+    getPostsByAuthor(author: String!, limit: Int, nextToken: String): PaginatedPosts!
 }
 
 type Post {
