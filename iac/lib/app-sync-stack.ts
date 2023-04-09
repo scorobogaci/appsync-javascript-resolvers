@@ -73,6 +73,14 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const votePostFunction = new AppsyncFunction(this, 'VotePostFunction', {
+            name: 'VOTE_POST',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/votePost.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
         /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
@@ -99,6 +107,15 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [updatePostFunction],
+        });
+
+        new Resolver(this, 'VotePostResolver', {
+            api: appsyncApi,
+            typeName: 'Mutation',
+            fieldName: 'votePost',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [votePostFunction],
         });
 
     }

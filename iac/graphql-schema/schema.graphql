@@ -6,6 +6,7 @@ schema {
 type Mutation {
     addPost(id: ID!,author: String!,title: String!,content: String!,url: String!): Post!
     updatePost(id: ID!,author: String,title: String,content: String,url: String,expectedVersion: Int!): Post
+    votePost(id: ID!, direction: DIRECTION!): Post
 }
 
 type Query {
@@ -21,6 +22,11 @@ type Post {
     ups: Int!
     downs: Int!
     version: Int!
+}
+
+enum DIRECTION {
+    UP
+    DOWN
 }
 
 
