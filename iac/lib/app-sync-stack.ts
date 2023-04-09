@@ -1,10 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
+import {RemovalPolicy, StackProps} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
-import {StackProps} from "aws-cdk-lib";
 import {
     AppsyncFunction,
-    AuthorizationType, Code, FunctionRuntime,
-    GraphqlApi, Resolver,
+    AuthorizationType,
+    Code,
+    FunctionRuntime,
+    GraphqlApi,
+    Resolver,
     SchemaFile,
 } from "aws-cdk-lib/aws-appsync";
 import * as path from "path";
@@ -18,8 +21,8 @@ export class AppSyncStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: ApiProps) {
         super(scope, id, props);
 
-        const appsyncApi = new GraphqlApi(this, 'DemoJavascriptResolvers', {
-            name: props.stage.concat("-").concat("javascript-resolvers-sample"),
+        const appsyncApi = new GraphqlApi(this, 'JavascriptResolvers', {
+            name: props.stage.concat("-javascript-resolvers-sample"),
             schema: SchemaFile.fromAsset(path.join(__dirname, './../graphql-schema/schema.graphql')),
             authorizationConfig: {
                 defaultAuthorization: {
@@ -28,9 +31,10 @@ export class AppSyncStack extends cdk.Stack {
             }
         });
 
-        const postsTable = new Table(this, 'DemoTable', {
+        const postsTable = new Table(this, 'PostsTable', {
             tableName: props.stage.concat('-posts'),
             deletionProtection: false,
+            removalPolicy: RemovalPolicy.DESTROY,
             partitionKey: {
                 name: 'id',
                 type: AttributeType.STRING,
@@ -44,6 +48,7 @@ export class AppSyncStack extends cdk.Stack {
 
         const postsDataSource = appsyncApi.addDynamoDbDataSource('PostsDataSource', postsTable);
 
+        /* Functions */
         const addPostFunction = new AppsyncFunction(this, 'AddPostFunction', {
             name: 'ADD_POST',
             api: appsyncApi,
@@ -60,7 +65,15 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const updatePostFunction = new AppsyncFunction(this, 'UpdatePostFunction', {
+            name: 'UPDATE_POST',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/updatePost.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
 
+        /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
             typeName: 'Mutation',
@@ -77,6 +90,15 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [getPostFunction],
+        });
+
+        new Resolver(this, 'UpdatePostResolver', {
+            api: appsyncApi,
+            typeName: 'Mutation',
+            fieldName: 'updatePost',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [updatePostFunction],
         });
 
     }
