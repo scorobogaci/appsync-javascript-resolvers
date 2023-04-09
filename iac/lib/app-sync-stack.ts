@@ -89,6 +89,14 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const getPostsFunction = new AppsyncFunction(this, 'GetPostsFunction', {
+            name: 'GET_POSTS',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/getPosts.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
         /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
@@ -133,6 +141,15 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [deletePostFunction],
+        });
+
+        new Resolver(this, 'GetPostsResolver', {
+            api: appsyncApi,
+            typeName: 'Query',
+            fieldName: 'getPosts',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [getPostsFunction],
         });
 
     }

@@ -12,6 +12,7 @@ type Mutation {
 
 type Query {
     getPost(id: ID): Post
+    getPosts(limit: Int, nextToken: String): PaginatedPosts!
 }
 
 type Post {
@@ -23,6 +24,11 @@ type Post {
     ups: Int!
     downs: Int!
     version: Int!
+}
+
+type PaginatedPosts {
+    posts: [Post!]!
+    nextToken: String
 }
 
 enum DIRECTION {
