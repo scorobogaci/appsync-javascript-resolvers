@@ -81,6 +81,14 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const deletePostFunction = new AppsyncFunction(this, 'DeletePostFunction', {
+            name: 'DELETE_POST',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/deletePost.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
         /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
@@ -116,6 +124,15 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [votePostFunction],
+        });
+
+        new Resolver(this, 'DeletePostResolver', {
+            api: appsyncApi,
+            typeName: 'Mutation',
+            fieldName: 'deletePost',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [deletePostFunction],
         });
 
     }
