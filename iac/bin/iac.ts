@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { IacStack } from '../lib/iac-stack';
+import {AppSyncStack} from '../lib/app-sync-stack';
 
 const app = new cdk.App();
-new IacStack(app, 'IacStack', {
+new AppSyncStack(app, 'AppSyncStack', {
+    stage: "dev"
 });
