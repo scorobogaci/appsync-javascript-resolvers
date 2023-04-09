@@ -42,7 +42,7 @@ export class AppSyncStack extends cdk.Stack {
             partitionKey: {name: 'author', type: AttributeType.STRING},
         })
 
-        const postsDataSource = appsyncApi.addDynamoDbDataSource('postsDataSource', postsTable);
+        const postsDataSource = appsyncApi.addDynamoDbDataSource('PostsDataSource', postsTable);
 
         const addPostFunction = new AppsyncFunction(this, 'AddPostFunction', {
             name: 'ADD_POST',
