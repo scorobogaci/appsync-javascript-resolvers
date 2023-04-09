@@ -24,6 +24,7 @@ export class AppSyncStack extends cdk.Stack {
         });
 
         const postsTable = new Table(this, 'DemoTable', {
+            tableName: props.stage.concat('-posts'),
             partitionKey: {
                 name: 'id',
                 type: AttributeType.STRING,
