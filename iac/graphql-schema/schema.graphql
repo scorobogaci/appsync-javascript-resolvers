@@ -3,9 +3,9 @@ schema {
     mutation: Mutation
 }
 
-
 type Mutation {
     addPost(id: ID!,author: String!,title: String!,content: String!,url: String!): Post!
+    updatePost(id: ID!,author: String,title: String,content: String,url: String,expectedVersion: Int!): Post
 }
 
 type Query {
