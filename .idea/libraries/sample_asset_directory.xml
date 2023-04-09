@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sample-asset-directory">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-s3-assets/test/sample-asset-directory/sample-zip-asset.zip!/" />
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-s3-assets/test/sample-asset-directory/sample-jar-asset.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

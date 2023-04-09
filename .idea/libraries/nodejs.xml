@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="nodejs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-codepipeline-actions/test/assets/nodejs.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

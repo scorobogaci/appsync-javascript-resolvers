@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="test1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-s3-deployment/test/my-website.zip!/" />
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-s3-deployment/test/my-website-second.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

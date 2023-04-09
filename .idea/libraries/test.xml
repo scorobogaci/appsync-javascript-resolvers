@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="test">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-s3-deployment/test/lambda/test.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

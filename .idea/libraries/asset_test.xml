@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="asset-test">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/iac/node_modules/aws-cdk-lib/aws-codecommit/test/asset-test.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
