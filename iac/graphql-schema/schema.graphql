@@ -8,12 +8,15 @@ type Mutation {
     updatePost(id: ID!,author: String,title: String,content: String,url: String,expectedVersion: Int!): Post
     votePost(id: ID!, direction: DIRECTION!): Post
     deletePost(id: ID!, expectedVersion: Int): Post
+    addTagToPost(id: ID!, tag: String!): Post
+    removeTagFromPost(id: ID!, tag: String!): Post
 }
 
 type Query {
     getPost(id: ID): Post
     getPosts(limit: Int, nextToken: String): PaginatedPosts!
     getPostsByAuthor(author: String!, limit: Int, nextToken: String): PaginatedPosts!
+    getPostsByTag(tag: String!, limit: Int, nextToken: String): PaginatedPosts!
 }
 
 type Post {
@@ -25,6 +28,7 @@ type Post {
     ups: Int!
     downs: Int!
     version: Int!
+    tags: [String!]
 }
 
 type PaginatedPosts {

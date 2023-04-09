@@ -105,6 +105,30 @@ export class AppSyncStack extends cdk.Stack {
             runtime: FunctionRuntime.JS_1_0_0,
         });
 
+        const getPostsByTag = new AppsyncFunction(this, 'GetPostsByTagFunction', {
+            name: 'GET_POSTS_BY_TAG',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/getPostsByTag.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
+        const addTagToPost = new AppsyncFunction(this, 'AddTagToPostFunction', {
+            name: 'ADD_TAG',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/addTagToPost.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
+        const removeTagFromPost = new AppsyncFunction(this, 'RemoveTagFromPostFunction', {
+            name: 'REMOVE_TAG',
+            api: appsyncApi,
+            dataSource: postsDataSource,
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/removeTagFromPost.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+        });
+
         /* Resolvers */
         new Resolver(this, 'AddPostResolver', {
             api: appsyncApi,
@@ -167,6 +191,33 @@ export class AppSyncStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
             runtime: FunctionRuntime.JS_1_0_0,
             pipelineConfig: [getPostsByAuthor],
+        });
+
+        new Resolver(this, 'GetPostsByTagResolver', {
+            api: appsyncApi,
+            typeName: 'Query',
+            fieldName: 'getPostsByTag',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [getPostsByTag],
+        });
+
+        new Resolver(this, 'AddTagToPostResolver', {
+            api: appsyncApi,
+            typeName: 'Mutation',
+            fieldName: 'addTagToPost',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [addTagToPost],
+        });
+
+        new Resolver(this, 'RemoveTagFromPostResolver', {
+            api: appsyncApi,
+            typeName: 'Mutation',
+            fieldName: 'removeTagFromPost',
+            code: Code.fromAsset(path.join(__dirname, './../templates/functions/pipeline.js')),
+            runtime: FunctionRuntime.JS_1_0_0,
+            pipelineConfig: [removeTagFromPost],
         });
 
     }
